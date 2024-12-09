@@ -70,8 +70,10 @@ class CleaningRobot:
         self.heading = "N"
 
     def robot_status(self) -> str:
-        # To be implemented
-        pass
+        pos_x_string = str(self.pos_x)
+        pos_y_string = str(self.pos_y)
+        status = "(" + pos_x_string + "," + pos_y_string + "," + self.heading + ")"
+        return status
 
     def execute_command(self, command: str) -> str:
         # To be implemented
