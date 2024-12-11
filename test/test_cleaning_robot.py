@@ -120,3 +120,22 @@ class TestCleaningRobot(TestCase):
 
         status = system.execute_command("f")
         self.assertEqual(status,"(1,2,N)")
+
+    @patch.object(IBS, "get_charge_left")
+    @patch.object(GPIO, "output")
+    def test_execute_command_if_battery_is_low(self, mock_led: Mock, mock_get_charge_left: Mock):
+        mock_get_charge_left.return_value = 10
+        system = CleaningRobot()
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "N"
+
+
+        status = system.execute_command("f")
+
+        calls = [call(system.CLEANING_SYSTEM_PIN, True), call(system.RECHARGE_LED_PIN, False)]
+        mock_led.assert_has_calls(calls, any_order=False)
+        self.assertEqual(status, "!(1,1,N)")
+
+
+
