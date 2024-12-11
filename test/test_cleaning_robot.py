@@ -53,3 +53,14 @@ class TestCleaningRobot(TestCase):
         mock_led.assert_has_calls(calls, any_order=False)
         self.assertTrue(system.cleaning_system_on)
         self.assertFalse(system.recharge_led_on)
+
+    @patch.object(CleaningRobot, "activate_wheel_motor")
+    def test_execute_command_move_forward(self, mock_activate_wheel_motor: Mock):
+        system = CleaningRobot()
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "N"
+
+        status = system.execute_command("f")
+        mock_activate_wheel_motor.assert_called_once()
+        self.assertEqual(status,"(1,2,N)")
