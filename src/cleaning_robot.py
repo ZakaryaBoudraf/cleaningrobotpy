@@ -78,7 +78,18 @@ class CleaningRobot:
         return status
 
     def execute_command(self, command: str) -> str:
+
         if command == "f":
+            if self.obstacle_found():
+                if self.heading == "N":
+                    obstacle_pos = (self.pos_x, self.pos_y + 1)
+                elif self.heading == "S":
+                    obstacle_pos = (self.pos_x, self.pos_y - 1)
+                elif self.heading == "E":
+                    obstacle_pos = (self.pos_x + 1, self.pos_y)
+                elif self.heading == "W":
+                    obstacle_pos = (self.pos_x - 1, self.pos_y)
+                return f"{self.robot_status()}({obstacle_pos[0]},{obstacle_pos[1]})"
             if self.heading == "N":
                 self.pos_y += 1
             elif self.heading == "S":
