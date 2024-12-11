@@ -78,8 +78,10 @@ class CleaningRobot:
         return status
 
     def execute_command(self, command: str) -> str:
-        # To be implemented
-        pass
+        if command == "f":
+            self.activate_wheel_motor()
+            self.pos_y = self.pos_y + 1
+            return self.robot_status()
 
     def obstacle_found(self) -> bool:
         # To be implemented
