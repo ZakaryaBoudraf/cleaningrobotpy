@@ -30,13 +30,26 @@ class TestCleaningRobot(TestCase):
 
     @patch.object(IBS, "get_charge_left")
     @patch.object(GPIO, "output")
-    def test_manage_cleaning_system_led_turns_on_if_battery_low(self, mock_LED: Mock, mock_IBS: Mock):
+    def test_manage_cleaning_system_led_turns_on_and_cleaning_system_off_if_battery_low(self, mock_led: Mock, mock_ibs: Mock):
         system = CleaningRobot()
-        mock_IBS.return_value = 9
+        mock_ibs.return_value = 10
 
         system.manage_cleaning_system()
 
         calls = [call(system.CLEANING_SYSTEM_PIN, False), call(system.RECHARGE_LED_PIN, True)]
-        mock_LED.assert_has_calls(calls, any_order=False)
+        mock_led.assert_has_calls(calls, any_order=False)
         self.assertFalse(system.cleaning_system_on)
         self.assertTrue(system.recharge_led_on)
+
+    @patch.object(IBS, "get_charge_left")
+    @patch.object(GPIO, "output")
+    def test_manage_cleaning_system_recharge_led_turns_off_and_cleaning_system_on_if_battery_high(self, mock_led: Mock, mock_ibs: Mock):
+        system = CleaningRobot()
+        mock_ibs.return_value = 11
+
+        system.manage_cleaning_system()
+
+        calls = [call(system.CLEANING_SYSTEM_PIN, True), call(system.RECHARGE_LED_PIN, False)]
+        mock_led.assert_has_calls(calls, any_order=False)
+        self.assertTrue(system.cleaning_system_on)
+        self.assertFalse(system.recharge_led_on)

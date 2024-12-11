@@ -87,7 +87,7 @@ class CleaningRobot:
 
     def manage_cleaning_system(self) -> None:
         charge_left = self.ibs.get_charge_left()
-        if charge_left < 10:
+        if charge_left <= 10:
             GPIO.output(self.CLEANING_SYSTEM_PIN, False)
             self.cleaning_system_on = False
             GPIO.output(self.RECHARGE_LED_PIN, True)
