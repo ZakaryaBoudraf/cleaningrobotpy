@@ -1,5 +1,7 @@
 import time
 
+from sympy.physics.units import charge
+
 DEPLOYMENT = False  # This variable is to understand whether you are deploying on the actual hardware
 
 try:
@@ -84,8 +86,12 @@ class CleaningRobot:
         pass
 
     def manage_cleaning_system(self) -> None:
-        # To be implemented
-        pass
+        charge_left = self.ibs.get_charge_left()
+        if charge_left < 10:
+            GPIO.output(self.CLEANING_SYSTEM_PIN, False)
+            self.cleaning_system_on = False
+            GPIO.output(self.RECHARGE_LED_PIN, True)
+            self.recharge_led_on = True
 
     def activate_wheel_motor(self) -> None:
         """

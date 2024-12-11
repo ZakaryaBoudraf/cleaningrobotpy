@@ -32,7 +32,7 @@ class TestCleaningRobot(TestCase):
     @patch.object(GPIO, "output")
     def test_manage_cleaning_system_led_turns_on_if_battery_low(self, mock_LED: Mock, mock_IBS: Mock):
         system = CleaningRobot()
-        system.ibs = 9
+        mock_IBS.return_value = 9
 
         system.manage_cleaning_system()
 
