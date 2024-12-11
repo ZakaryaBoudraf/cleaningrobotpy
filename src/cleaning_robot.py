@@ -107,6 +107,7 @@ class CleaningRobot:
             elif self.heading == "W":
                 self.pos_x -= 1
             self.activate_wheel_motor()
+            self.activate_uv_light()
             return self.robot_status()
         if command == "r":
             self.activate_rotation_motor("r")
@@ -131,7 +132,7 @@ class CleaningRobot:
         return GPIO.input(self.INFRARED_PIN)
 
     def manage_cleaning_system(self) -> None:
-        charge_left = self.ibs.get_charge_left()
+        charge_left = int(self.ibs.get_charge_left())
         if charge_left <= 10:
             GPIO.output(self.CLEANING_SYSTEM_PIN, False)
             self.cleaning_system_on = False
@@ -145,8 +146,10 @@ class CleaningRobot:
 
     def activate_uv_light(self) -> None:
         GPIO.output(self.UV_LIGHT_PIN, True)
+        self.uv_light_on = True
         time.sleep(30)
         GPIO.output(self.UV_LIGHT_PIN, False)
+        self.uv_light_on = False
 
     def activate_wheel_motor(self) -> None:
         """

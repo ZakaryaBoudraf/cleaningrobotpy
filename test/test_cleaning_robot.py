@@ -152,8 +152,10 @@ class TestCleaningRobot(TestCase):
         self.assertTrue(mock_sleep.called)
         mock_sleep.assert_called_with(30)
 
+    @patch.object(IBS, "get_charge_left")
     @patch.object(CleaningRobot, "activate_uv_light")
-    def test_uv_light_activation_on_movement(self, mock_activate_uv_light: Mock):
+    def test_uv_light_activation_on_movement(self, mock_activate_uv_light: Mock, mock_ibs: Mock):
+        mock_ibs.return_value = 11
         system = CleaningRobot()
         system.pos_x = 1
         system.pos_y = 1
