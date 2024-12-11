@@ -20,6 +20,7 @@ class CleaningRobot:
     RECHARGE_LED_PIN = 12
     CLEANING_SYSTEM_PIN = 13
     INFRARED_PIN = 15
+    UV_LIGHT_PIN = 10
 
     # Wheel motor pins
     PWMA = 16
@@ -47,6 +48,7 @@ class CleaningRobot:
         GPIO.setup(self.INFRARED_PIN, GPIO.IN)
         GPIO.setup(self.RECHARGE_LED_PIN, GPIO.OUT)
         GPIO.setup(self.CLEANING_SYSTEM_PIN, GPIO.OUT)
+        GPIO.setup(self.UV_LIGHT_PIN, GPIO.OUT)
 
         GPIO.setup(self.PWMA, GPIO.OUT)
         GPIO.setup(self.AIN2, GPIO.OUT)
@@ -65,6 +67,8 @@ class CleaningRobot:
 
         self.recharge_led_on = False
         self.cleaning_system_on = False
+        self.uv_light_on = False
+
 
     def initialize_robot(self) -> None:
         self.pos_x = 0
@@ -138,6 +142,9 @@ class CleaningRobot:
             self.cleaning_system_on = True
             GPIO.output(self.RECHARGE_LED_PIN, False)
             self.recharge_led_on = False
+
+    def activate_uv_light(self):
+        pass
 
     def activate_wheel_motor(self) -> None:
         """

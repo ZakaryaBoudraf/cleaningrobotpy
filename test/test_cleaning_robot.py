@@ -1,3 +1,5 @@
+import time
+from time import sleep
 from unittest import TestCase
 from unittest.mock import Mock, patch, call
 
@@ -136,5 +138,16 @@ class TestCleaningRobot(TestCase):
         mock_led.assert_has_calls(calls)
         self.assertEqual(status, "!(1,1,N)")
 
+    @patch("src.cleaning_robot.GPIO.output")
+    @patch("time.sleep")
+    def test_activate_uv_light(self, mock_sleep: Mock, mock_uv_light: Mock):
+        system = CleaningRobot()
 
+        system.activate_uv_light()
 
+        mock_uv_light.assert_any_call(system.UV_LIGHT_PIN, True)
+
+        mock_uv_light.assert_any_call(system.UV_LIGHT_PIN, False)
+
+        self.assertTrue(mock_sleep.called)
+        mock_sleep.assert_called_with(30)
