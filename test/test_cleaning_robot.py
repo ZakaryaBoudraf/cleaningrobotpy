@@ -99,3 +99,13 @@ class TestCleaningRobot(TestCase):
         system = CleaningRobot()
         self.assertFalse(system.obstacle_found())
 
+    @patch.object(CleaningRobot, "activate_wheel_motor")
+    def test_execute_command_forward_when_obstacle_found(self, mock_activate_wheel_motor: Mock):
+        system = CleaningRobot()
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "N"
+
+        status = system.execute_command("f")
+        mock_activate_wheel_motor.assert_called_once()
+        self.assertEqual(status,"(1,1,N)(1,2)")
