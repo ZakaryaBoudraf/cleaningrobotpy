@@ -78,6 +78,10 @@ class CleaningRobot:
         return status
 
     def execute_command(self, command: str) -> str:
+        self.manage_cleaning_system()
+        charge_left = self.ibs.get_charge_left()
+        if charge_left <= 10:
+            return f"!{self.robot_status()}"
 
         if command == "f":
             if self.obstacle_found():
