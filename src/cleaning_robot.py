@@ -89,7 +89,15 @@ class CleaningRobot:
                 self.pos_x -= 1
             self.activate_wheel_motor()
             return self.robot_status()
-
+        if command == "r":
+            self.activate_rotation_motor("r")
+            self.heading = {
+                "N": "E",
+                "E": "S",
+                "S": "W",
+                "W": "N"
+            }[self.heading]
+            return self.robot_status()
 
     def obstacle_found(self) -> bool:
         # To be implemented
