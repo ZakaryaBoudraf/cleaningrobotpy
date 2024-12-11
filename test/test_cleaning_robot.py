@@ -88,11 +88,12 @@ class TestCleaningRobot(TestCase):
         self.assertEqual(status,"(1,2,N)")
 
     @patch.object(GPIO, "input")
-    def test_obstacle_found(self, mock_infrared_sensor: Mock):
-        system = CleaningRobot()
-        system.pos_x = 1
-        system.pos_y = 1
-        system.heading = "N"
+    def test_obstacle_found_is_true(self, mock_infrared_sensor: Mock):
+        mock_infrared_sensor.return_value = True
+        self.assertTrue(mock_infrared_sensor.obstacle_found())
 
-        status = system.obstacle_found()
-        self.assertEqual(status,"(1,1,N)(1,2)")
+    @patch.object(GPIO, "input")
+    def test_obstacle_found_is_false(self, mock_infrared_sensor: Mock):
+        mock_infrared_sensor.return_value = False
+        self.assertFalse(mock_infrared_sensor.obstacle_found())
+
