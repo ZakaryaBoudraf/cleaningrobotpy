@@ -90,10 +90,12 @@ class TestCleaningRobot(TestCase):
     @patch.object(GPIO, "input")
     def test_obstacle_found_is_true(self, mock_infrared_sensor: Mock):
         mock_infrared_sensor.return_value = True
-        self.assertTrue(mock_infrared_sensor.obstacle_found())
+        system = CleaningRobot()
+        self.assertTrue(system.obstacle_found())
 
     @patch.object(GPIO, "input")
     def test_obstacle_found_is_false(self, mock_infrared_sensor: Mock):
         mock_infrared_sensor.return_value = False
-        self.assertFalse(mock_infrared_sensor.obstacle_found())
+        system = CleaningRobot()
+        self.assertFalse(system.obstacle_found())
 
