@@ -138,7 +138,7 @@ class TestCleaningRobot(TestCase):
         mock_led.assert_has_calls(calls)
         self.assertEqual(status, "!(1,1,N)")
 
-    @patch("src.cleaning_robot.GPIO.output")
+    @patch.object(GPIO, "output")
     @patch("time.sleep")
     def test_activate_uv_light(self, mock_sleep: Mock, mock_uv_light: Mock):
         system = CleaningRobot()
@@ -151,3 +151,4 @@ class TestCleaningRobot(TestCase):
 
         self.assertTrue(mock_sleep.called)
         mock_sleep.assert_called_with(30)
+
