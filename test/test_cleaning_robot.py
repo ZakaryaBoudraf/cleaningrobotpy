@@ -86,3 +86,13 @@ class TestCleaningRobot(TestCase):
         status = system.execute_command("l")
         mock_activate_rotation_motor.assert_called_once()
         self.assertEqual(status,"(1,2,N)")
+
+    @patch.object(GPIO, "input")
+    def test_obstacle_found(self, mock_infrared_sensor: Mock):
+        system = CleaningRobot()
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "N"
+
+        status = system.obstacle_found()
+        self.assertEqual(status,"(1,1,N)(1,2)")
