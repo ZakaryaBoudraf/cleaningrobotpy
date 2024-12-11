@@ -59,11 +59,11 @@ class TestCleaningRobot(TestCase):
         system = CleaningRobot()
         system.pos_x = 1
         system.pos_y = 1
-        system.heading = "N"
+        system.heading = "E"
 
         status = system.execute_command("f")
         mock_activate_wheel_motor.assert_called_once()
-        self.assertEqual(status,"(1,2,N)")
+        self.assertEqual(status,"(2,1,N)")
 
     @patch.object(CleaningRobot, "activate_rotation_motor")
     def test_execute_command_turn_right(self, mock_activate_rotation_motor: Mock):

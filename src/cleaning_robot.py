@@ -79,8 +79,17 @@ class CleaningRobot:
 
     def execute_command(self, command: str) -> str:
         if command == "f":
-            self.activate_wheel_motor()
-            self.pos_y = self.pos_y + 1
+            if self.heading == "N":
+                self.pos_y += 1
+            elif self.heading == "S":
+                self.pos_y -= 1
+            elif self.heading == "E":
+                self.pos_x += 1
+            elif self.heading == "W":
+                self.pos_x -= 1
+            return self.robot_status()
+        if command == "r":
+            self.activate_rotation_motor("r")
             return self.robot_status()
 
     def obstacle_found(self) -> bool:
