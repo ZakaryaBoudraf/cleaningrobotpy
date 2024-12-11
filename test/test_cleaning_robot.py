@@ -109,3 +109,14 @@ class TestCleaningRobot(TestCase):
 
         status = system.execute_command("f")
         self.assertEqual(status,"(1,1,N)(1,2)")
+
+    @patch.object(GPIO, "input")
+    def test_execute_command_forward_when_no_obstacle_found(self, mock_infrared_sensor: Mock):
+        mock_infrared_sensor.return_value = False
+        system = CleaningRobot()
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "N"
+
+        status = system.execute_command("f")
+        self.assertEqual(status,"(1,2,N)")
