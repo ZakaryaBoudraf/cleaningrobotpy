@@ -98,6 +98,15 @@ class CleaningRobot:
                 "W": "N"
             }[self.heading]
             return self.robot_status()
+        if command == "l":
+            self.activate_rotation_motor("l")
+            self.heading = {
+                "N": "W",
+                "E": "N",
+                "S": "E",
+                "W": "S"
+            }[self.heading]
+            return self.robot_status()
 
     def obstacle_found(self) -> bool:
         # To be implemented
