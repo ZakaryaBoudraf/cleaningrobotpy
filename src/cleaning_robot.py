@@ -87,6 +87,7 @@ class CleaningRobot:
                 self.pos_x += 1
             elif self.heading == "W":
                 self.pos_x -= 1
+            self.activate_wheel_motor()
             return self.robot_status()
         if command == "r":
             self.activate_rotation_motor("r")
