@@ -130,7 +130,7 @@ class TestCleaningRobot(TestCase):
 
     @patch.object(IBS, "get_charge_left")
     @patch.object(GPIO, "output")
-    def test_execute_command_if_battery_is_low(self, mock_led: Mock, mock_ibs: Mock):
+    def test_execute_command_forward_if_battery_is_low(self, mock_led: Mock, mock_ibs: Mock):
         mock_ibs.return_value = 10
         system = CleaningRobot()
         system.pos_x = 1
