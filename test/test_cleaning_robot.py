@@ -10,11 +10,6 @@ from src.cleaning_robot import CleaningRobot
 
 class TestCleaningRobot(TestCase):
 
-    @patch.object(GPIO, "input")
-    def test_something(self, mock_object: Mock):
-        # This is an example of test where I want to mock the GPIO.input() function
-        pass
-
     def test_initialize_robot(self):
         system = CleaningRobot()
         system.initialize_robot()
@@ -56,8 +51,10 @@ class TestCleaningRobot(TestCase):
         self.assertTrue(system.cleaning_system_on)
         self.assertFalse(system.recharge_led_on)
 
+    @patch.object(IBS, "get_charge_left")
     @patch.object(CleaningRobot, "activate_wheel_motor")
-    def test_execute_command_move_forward(self, mock_activate_wheel_motor: Mock):
+    def test_execute_command_move_forward(self, mock_activate_wheel_motor: Mock, mock_ibs: Mock):
+        mock_ibs.return_value = 11
         system = CleaningRobot()
         system.pos_x = 1
         system.pos_y = 1
@@ -67,8 +64,10 @@ class TestCleaningRobot(TestCase):
         mock_activate_wheel_motor.assert_called_once()
         self.assertEqual(status,"(2,1,E)")
 
+    @patch.object(IBS, "get_charge_left")
     @patch.object(CleaningRobot, "activate_rotation_motor")
-    def test_execute_command_turn_right(self, mock_activate_rotation_motor: Mock):
+    def test_execute_command_turn_right(self, mock_activate_rotation_motor: Mock, mock_ibs: Mock):
+        mock_ibs.return_value = 11
         system = CleaningRobot()
         system.pos_x = 1
         system.pos_y = 2
@@ -78,8 +77,10 @@ class TestCleaningRobot(TestCase):
         mock_activate_rotation_motor.assert_called_once()
         self.assertEqual(status,"(1,2,E)")
 
+    @patch.object(IBS, "get_charge_left")
     @patch.object(CleaningRobot, "activate_rotation_motor")
-    def test_execute_command_turn_left(self, mock_activate_rotation_motor: Mock):
+    def test_execute_command_turn_left(self, mock_activate_rotation_motor: Mock, mock_ibs: Mock):
+        mock_ibs.return_value = 11
         system = CleaningRobot()
         system.pos_x = 1
         system.pos_y = 2
@@ -101,8 +102,10 @@ class TestCleaningRobot(TestCase):
         system = CleaningRobot()
         self.assertFalse(system.obstacle_found())
 
+    @patch.object(IBS, "get_charge_left")
     @patch.object(GPIO, "input")
-    def test_execute_command_forward_when_obstacle_found(self, mock_infrared_sensor: Mock):
+    def test_execute_command_forward_when_obstacle_found(self, mock_infrared_sensor: Mock, mock_ibs: Mock):
+        mock_ibs.return_value = 11
         mock_infrared_sensor.return_value = True
         system = CleaningRobot()
         system.pos_x = 1
@@ -112,8 +115,10 @@ class TestCleaningRobot(TestCase):
         status = system.execute_command("f")
         self.assertEqual(status,"(1,1,N)(1,2)")
 
+    @patch.object(IBS, "get_charge_left")
     @patch.object(GPIO, "input")
-    def test_execute_command_forward_when_no_obstacle_found(self, mock_infrared_sensor: Mock):
+    def test_execute_command_forward_when_no_obstacle_found(self, mock_infrared_sensor: Mock, mock_ibs: Mock):
+        mock_ibs.return_value = 11
         mock_infrared_sensor.return_value = False
         system = CleaningRobot()
         system.pos_x = 1
