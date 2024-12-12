@@ -127,6 +127,8 @@ class CleaningRobot:
             }[self.heading]
             return self.robot_status()
 
+        raise CleaningRobotError
+
     def obstacle_found(self) -> bool:
         return GPIO.input(self.INFRARED_PIN)
 

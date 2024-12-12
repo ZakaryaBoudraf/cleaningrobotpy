@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch, call
 
 from mock import GPIO
 from mock.ibs import IBS
-from src.cleaning_robot import CleaningRobot
+from src.cleaning_robot import CleaningRobot, CleaningRobotError
 
 
 class TestCleaningRobot(TestCase):
@@ -89,6 +89,16 @@ class TestCleaningRobot(TestCase):
         status = system.execute_command("l")
         mock_activate_rotation_motor.assert_called_once()
         self.assertEqual(status,"(1,2,N)")
+
+    @patch.object(IBS, "get_charge_left")
+    def test_execute_command_invalid_input(self, mock_ibs: Mock):
+        mock_ibs.return_value = 11
+        system = CleaningRobot()
+        system.pos_x = 1
+        system.pos_y = 1
+        system.heading = "E"
+
+        self.assertRaises(CleaningRobotError, system.execute_command, "x")
 
     @patch.object(GPIO, "input")
     def test_obstacle_found_is_true(self, mock_infrared_sensor: Mock):
