@@ -67,7 +67,6 @@ class CleaningRobot:
 
         self.recharge_led_on = False
         self.cleaning_system_on = False
-        self.uv_light_on = False
 
 
     def initialize_robot(self) -> None:
@@ -146,10 +145,8 @@ class CleaningRobot:
 
     def activate_uv_light(self) -> None:
         GPIO.output(self.UV_LIGHT_PIN, True)
-        self.uv_light_on = True
         time.sleep(30)
         GPIO.output(self.UV_LIGHT_PIN, False)
-        self.uv_light_on = False
 
     def activate_wheel_motor(self) -> None:
         """
