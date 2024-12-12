@@ -1,5 +1,3 @@
-import time
-from time import sleep
 from unittest import TestCase
 from unittest.mock import Mock, patch, call
 
