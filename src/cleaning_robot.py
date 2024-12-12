@@ -20,7 +20,7 @@ class CleaningRobot:
     RECHARGE_LED_PIN = 12
     CLEANING_SYSTEM_PIN = 13
     INFRARED_PIN = 15
-    UV_LIGHT_PIN = 10
+    UV_LIGHT_PIN = 7
 
     # Wheel motor pins
     PWMA = 16
